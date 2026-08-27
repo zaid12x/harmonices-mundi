@@ -106,17 +106,20 @@ export const App: React.FC = () => {
     scene.background = new THREE.Color('#030712');
     sceneRef.current = scene;
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 22, 26);
+    const isMobile = window.innerWidth < 768;
+    const camera = new THREE.PerspectiveCamera(isMobile ? 52 : 45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, isMobile ? 32 : 22, isMobile ? 38 : 26);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+    renderer.domElement.style.touchAction = 'none';
     mountRef.current.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.rotateSpeed = isMobile ? 0.7 : 1.0;
     controls.target.set(0, -1, 0);
 
     // Lighting
@@ -128,7 +131,7 @@ export const App: React.FC = () => {
     scene.add(dirLight);
 
     // Spacetime Grid
-    const grid = new SpacetimeGrid(65, 120);
+    const grid = new SpacetimeGrid(isMobile ? 50 : 65, isMobile ? 60 : 100);
     scene.add(grid.mesh);
     gridRef.current = grid;
 
@@ -218,17 +221,18 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen bg-black overflow-hidden select-none">
-      <div ref={mountRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing" />
+    <div className="relative w-screen h-[100dvh] bg-black overflow-hidden select-none touch-none">
+      <div ref={mountRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing touch-none" />
 
       {!audioStarted && (
         <div 
           onClick={triggerStartAudio}
-          className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-30 cursor-pointer"
+          onTouchEnd={triggerStartAudio}
+          className="absolute inset-0 flex items-center justify-center bg-black/75 backdrop-blur-md z-30 cursor-pointer p-4 select-none"
         >
-          <div className="px-8 py-4 bg-slate-950/90 border border-cyan-400 rounded-2xl shadow-2xl shadow-cyan-500/30 text-center animate-pulse">
-            <div className="text-lg font-bold font-mono text-cyan-400">CLICK TO ENGAGE GRAVITATIONAL SYNTHESIZER</div>
-            <div className="text-xs text-slate-400 mt-1 font-mono">Initialize Web Audio & Celestial Harmonics</div>
+          <div className="px-6 sm:px-8 py-4 sm:py-5 bg-slate-950/95 border border-cyan-400 rounded-2xl shadow-2xl shadow-cyan-500/30 text-center animate-pulse max-w-sm sm:max-w-md">
+            <div className="text-sm sm:text-lg font-bold font-mono text-cyan-400">TAP TO ACTIVATE CELESTIAL SYNTHESIZER</div>
+            <div className="text-[11px] sm:text-xs text-slate-400 mt-1 font-mono">Engage Relativistic Physics & Web Audio</div>
           </div>
         </div>
       )}
