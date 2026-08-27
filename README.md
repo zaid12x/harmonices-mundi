@@ -1,30 +1,10 @@
-# Harmonices Mundi (Relativistic N-Body Synthesizer)
+# ğŸ¦ Harmonices Mundi (Relativistic N-Body Synthesizer)
 
-> Johannes Kepler, Harmonices Mundi (1619)
+[![Netlify Status](https://img.shields.io/badge/Netlify-Live_Deploy-00C7B7?logo=netlify&logoColor=white)](https://harmonices-mundi.netlify.app)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Harmonices Mundi is a real-time 3D gravitational sandbox where orbital mechanics compose polyphonic music and relativistic spacetime geometry drives real-time GLSL visual synthesis.
+> *"The heavenly motions are nothing but a continuous song for several voices, to be perceived by the intellect, not by the ear; a music which, through the discordant tensions, progresses towards certain pre-designed, six-voiced clausulas..."*  
+> â€” **Johannes Kepler**, *Harmonices Mundi* (1619)
 
-## The Four Pillars
-1. Space: N-Body Runge-Kutta 4 Integrator with General Relativistic precession.
-2. Math: Keplerian orbital resonance (8:5:3:2, 4:2:1) mapped to Just Intonation and Pythagorean tuning.
-3. Music: Tone.js polyphonic synthesis matrix (FM bells, lush pads, sub-bass reese drones, pulsar clicks).
-4. Code: Three.js deformable relativistic spacetime mesh and binaural 3D spatial audio.
-
-## Curated Presets
-- TRAPPIST-1 Resonance Chain (8:5:3:2 Laplace resonance)
-- Kerr Singularity and Binary Pulsar (Gravitational lensing and sub-bass sweeps)
-- Figure-8 Three-Body Canon (3-body choreographic musical canon)
-
-## Running with Docker
-`ash
-docker compose up --build
-`
-Open http://localhost:3000 in your browser.
-
-## Mobile & Touch Optimization
-- Touch OrbitControls (1-finger rotate, 2-finger zoom/pan)
-- Responsive collapsible DJ macro drawer
-- Thumb-friendly audio and scale controls
-
-## License
-MIT License
+**Harmonices Mundi** is a real-time 3D gravitational sandbox where *orbital mechanics directly compose polyphonic music* and *relativistic spacetime geometry drives real-time GLSL veb²æ¥Íå¹Ñ¡•Í¥Ì¨¸((¨«Â~2ˆ1¥Ù”AÉ½‘ÕÑ¥½¸]•ˆÁÀè¨¨m¡ÑÑÁÌè¼½¡…Éµ½¹¥•ÌµµÕ¹‘¤¹¹•Ñ±¥™ä¹…ÁÁt¡¡ÑÑÁÌè¼½¡…Éµ½¹¥•ÌµµÕ¹‘¤¹¹•Ñ±¥™ä¹…ÁÀ¤€€(¨©¥Ñ!ÕˆI•Á½Í¥Ñ½Éäè¨¨m¡ÑÑÁÌè¼½¥Ñ¡Õˆ¹½´½é…¥ÄÉà½¡…Éµ½¹¥•ÌµµÕ¹‘¥t¡¡ÑÑÁÌè¼½¥Ñ¡Õˆ¹½´½é…¥ÄÉà½¡…Éµ½¹¥•ÌµµÕ¹‘¤¤€€(¨©Q¡•½É•Ñ¥…°]¡¥Ñ•Á…Á•Èè¨¨m]!%QAAH¹µ‘t¡]!%QAAH¹µ¤ğ1…Q•`AÉ•ÁÉ¥¹ĞèmÁ…Á•È¹Ñ•át¡Á…Á•È¹Ñ•à¤((

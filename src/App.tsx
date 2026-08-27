@@ -236,7 +236,7 @@ export const App: React.FC = () => {
       <HUD
         params={params}
         onUpdateParams={handleUpdateParams}
-        bodyMeshes={simRef.current?.bodies || []}
+        bodies={simRef.current?.bodies || []}
         currentPreset={currentPreset}
         onSelectPreset={handleSelectPreset}
         onRecordToggle={handleRecordToggle}

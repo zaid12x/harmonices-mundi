@@ -1,0 +1,131 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{\textbf{Harmonices Mundi: Relativistic $-Body Celestial Synthesizer and Spacetime Sonification Engine}}
+
+\author{
+  \textbf{Zaid}\\
+  \textit{ShW Labs}\\
+  \texttt{zaidalqudahculeuf@gmail.com}\\
+  \and
+  \textbf{Gemini 3.7 Flash}\\
+  \textit{Google DeepMind}\\
+  \textit{Advanced Agentic AI Co-Author}
+}
+
+\date{August 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In 1619, Johannes Kepler published \textit{Harmonices Mundi}, proposing that the angular velocities of planets at their orbital extremes generate a continuous polyphonic harmony. In this work, we present a unified computational framework, real-time WebGL shader pipeline, and polyphonic Web Audio synthesis engine that directly bridges relativistic $-body gravitational dynamics with algorithmic musical composition. We utilize an 8-substep 4th-Order Runge-Kutta (RK4) numerical integrator with 1st Post-Newtonian (1PN) Schwarzschild precession terms. Instantaneous orbital kinematics ($\omega = \|\mathbf{r} \times \mathbf{v}\| / \|\mathbf{r}\|^2$) are quantized into pure Just Intonation and Keplerian Pythagorean harmonic ratios. Close-periapsis orbital passages trigger dynamic velocity-scaled percussion transients, while orbital coordinates drive 3D binaural spatial panners with Doppler frequency modulation. The entire architecture is deployed in an open-access, zero-install web application.
+\end{abstract}
+
+\section{Introduction and Historical Context}
+Johannes Kepler's \textit{Harmonices Mundi} (The Harmony of the World, 1619) established his Third Law of planetary motion:
+\begin{equation}
+T^2 \propto a^3
+\end{equation}
+where $ represents the orbital period and $ the semi-major axis. Kepler demonstrated that the ratio between minimum (aphelion) and maximum (perihelion) apparent angular velocities for known solar system planets coincided with pure musical intervals: Saturn ($, Major Third), Jupiter ($, Minor Third), Mars ($, Perfect Fifth), and Earth ($, Just Diatonic Semitone).
+
+Modern observational astrophysics has confirmed the ubiquity of multi-planet orbital resonance chains, prominently within the TRAPPIST-1 exoplanetary system \cite{luger2017}. \textit{Harmonices Mundi} realizes Kepler's vision as an interactive, real-time relativistic gravitational synthesizer.
+
+\section{Relativistic $-Body Gravitational Mechanics}
+
+\subsection{Equations of Motion with 1st Post-Newtonian (1PN) Precession}
+For an $-body system with softening length $\epsilon > 0$, the net acceleration $\mathbf{a}_i$ on body $ under Newtonian mutual gravitation augmented by the 1st Post-Newtonian (1PN) Schwarzschild precession correction is:
+\begin{equation}
+\mathbf{a}_i = \sum_{j \ne i} \frac{G M_j (\mathbf{r}_j - \mathbf{r}_i)}{\left(\|\mathbf{r}_j - \mathbf{r}_i\|^2 + \epsilon^2\right)^{3/2}} \left( 1 + \frac{3 G (M_i + M_j)}{c^2 \|\mathbf{r}_j - \mathbf{r}_i\|} \right)
+\end{equation}
+where $ is the universal gravitational constant, $ is the point mass of body $, $\mathbf{r}_j$ is the Cartesian position vector, and $ is the effective speed of light.
+
+\subsection{Numerical Integration: 4th-Order Runge-Kutta (RK4)}
+Let $\mathbf{y} = (\mathbf{r}_1, \dots, \mathbf{r}_N, \mathbf{v}_1, \dots, \mathbf{v}_N) \in \mathbb{R}^{6N}$ denote the system phase-space state. The system evolves as $\dot{\mathbf{y}} = \mathbf{f}(t, \mathbf{y})$. For frame interval $\Delta t$, the state updates via RK4:
+\begin{align}
+\mathbf{k}_1 &= \mathbf{f}(t_n, \mathbf{y}_n) \\
+\mathbf{k}_2 &= \mathbf{f}\left(t_n + \frac{\Delta t}{2}, \mathbf{y}_n + \frac{\Delta t}{2}\mathbf{k}_1\right) \\
+\mathbf{k}_3 &= \mathbf{f}\left(t_n + \frac{\Delta t}{2}, \mathbf{y}_n + \frac{\Delta t}{2}\mathbf{k}_2\right) \\
+\mathbf{k}_4 &= \mathbf{f}\left(t_n + \Delta t, \mathbf{y}_n + \Delta t \mathbf{k}_3\right) \\
+\mathbf{y}_{n+1} &= \mathbf{y}_n + \frac{\Delta t}{6}\left(\mathbf{k}_1 + 2\mathbf{k}_2 + 2\mathbf{k}_3 + \mathbf{k}_4\right)
+\end{align}
+To preserve symplectic energy invariants during tight hyperbolic encounters, each frame integration is subdivided into 8 sub-steps ($\Delta t_{\text{sub}} = \Delta t / 8$).
+
+\section{Deformable Spacetime GLSL Shader Pipeline}
+The 3D canvas represents relativistic spacetime geometry as a deformable triangular mesh. The vertical displacement (\mathbf{x})$ at coordinate $\mathbf{x} \in \mathbb{R}^2$ is computed per-vertex in a custom GLSL shader:
+\begin{equation}
+z(\mathbf{x}) = -\sum_{i=1}^N \frac{G M_i}{\sqrt{\|\mathbf{x} - \mathbf{r}_i\|^2 + \epsilon^2}}
+\end{equation}
+The fragment shader computes the potential gradient magnitude $\|\nabla \Phi(\mathbf{x})\|$, rendering asymptotic flat spacetime in deep cyan ( = 190^\circ$) and deep potential wells in incandescent crimson ( = 345^\circ$).
+
+\section{Web Audio Polyphonic Synthesizer Matrix}
+
+\subsection{Voice Allocation Matrix}
+\begin{itemize}
+  \item \textbf{Terrestrial Exoplanets:} Dual-operator 2-pole FM bell synthesizer with velocity-modulated modulation index:
+  \begin{equation}
+  I(t) = I_0 \cdot \left(1 + \beta \frac{\|\mathbf{v}(t)\|}{v_{\text{ref}}}\right)
+  \end{equation}
+  \item \textbf{Gas Giants:} 4-voice polyphonic analog pad with dynamic lowpass cutoff frequency  \propto \|\mathbf{v}\|$.
+  \item \textbf{Singularities / Kerr Black Holes:} 30--60\,Hz stereo Reese sub-bass drone with slow gravitational LFO amplitude modulation.
+  \item \textbf{Binary Pulsars:} Periodic FM membrane clicks synchronized to stellar spin rate $\Omega$.
+\end{itemize}
+
+\subsection{Microtonal Scale Quantization}
+The instantaneous orbital angular frequency $\omega_i = \|\mathbf{r}_i \times \mathbf{v}_i\| / \|\mathbf{r}_i\|^2$ is mapped onto a fundamental root key $ and quantized to pure Just Intonation ratios:
+\begin{equation}
+\mathcal{S}_{\text{Just}} = \left\{ 1, \frac{9}{8}, \frac{5}{4}, \frac{4}{3}, \frac{3}{2}, \frac{5}{3}, \frac{15}{8}, 2 \right\}
+\end{equation}
+or Keplerian Pythagorean tuning:
+\begin{equation}
+f_k = f_0 \cdot \left(\frac{3}{2}\right)^k \cdot 2^{-\lfloor k \log_2(3/2) \rfloor}
+\end{equation}
+
+\section{Curated Astrophysical Benchmarks}
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Physical Configuration} & \textbf{Acoustic Character} \\ \midrule
+TRAPPIST-1 Chain & 7 Earth-mass planets in $ resonance & Consonant Just Major bells \\
+Kerr \& Binary Pulsar & Extreme mass ratio, 1PN precession & Sub-bass drones and chirping clicks \\
+Figure-8 Lemniscate & 3 equal masses, zero angular momentum & Continuous 3-voice canon \\ \bottomrule
+\end{tabular}
+\caption{Curated astronomical scenarios and corresponding acoustic signatures.}
+\end{table}
+
+\section{AI-Assisted Engineering Methodology}
+The mathematical derivation, numerical integration optimization, GLSL shader pipeline, and responsive user interface were designed by \textbf{Zaid (ShW Labs)} in collaboration with \textbf{Gemini 3.7 Flash} (Google DeepMind) utilizing advanced multi-agent pair programming.
+
+\section{Deployment \& Availability}
+The interactive engine is deployed open-access at:
+\begin{center}
+\url{https://harmonices-mundi.netlify.app}
+\end{center}
+Full source code is accessible at:
+\begin{center}
+\url{https://github.com/zaid12x/harmonices-mundi}
+\end{center}
+
+\begin{thebibliography}{9}
+\bibitem{kepler1619}
+J.~Kepler, \textit{Harmonices Mundi}. Lincii Austriae: Gottfried Tampach, 1619.
+
+\bibitem{luger2017}
+R.~Luger et~al., `A seven-planet resonant chain in TRAPPIST-1,'' \textit{Nature Astronomy}, vol.~1, p.~0129, 2017. arXiv:\href{https://arxiv.org/abs/1703.04166}{1703.04166}.
+
+\bibitem{teyssandier2021}
+J.~Teyssandier et~al., `TRAPPIST-1: Dynamical analysis of transit-timing variations and origin of the resonant chain,'' arXiv:\href{https://arxiv.org/abs/2110.03340}{2110.03340}, 2021.
+
+\bibitem{chenciner2000}
+A.~Chenciner and R.~Montgomery, `A remarkable periodic solution of the three-body problem in the case of equal masses,'' \textit{Annals of Mathematics}, vol.~152, no.~3, pp.~881--901, 2000. arXiv:\href{https://arxiv.org/abs/math/0011268}{math/0011268}.
+\end{thebibliography}
+
+\end{document}
