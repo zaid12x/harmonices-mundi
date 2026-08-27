@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Pause, Radio, Disc3, Sliders, ChevronUp, ChevronDown } from 'lucide-react';
+import { Play, Pause, Radio, Disc3, Sliders, ChevronUp, ChevronDown, BookOpen } from 'lucide-react';
 import { SimulationParams, CelestialBody, Preset } from '../types';
 import { PRESETS } from '../physics/presets';
 import { SCALES } from '../audio/scales';
@@ -29,6 +29,7 @@ export const HUD: React.FC<HUDProps> = ({
 }) => {
   const [showPresets, setShowPresets] = useState(false);
   const [showMobileControls, setShowMobileControls] = useState(false);
+  const [showScience, setShowScience] = useState(false);
 
   return (
     <div className="absolute inset-0 pointer-events-none flex flex-col justify-between p-3 sm:p-6 pb-6">
@@ -43,7 +44,16 @@ export const HUD: React.FC<HUDProps> = ({
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 sm:gap-2">
+          <button
+            onClick={() => setShowScience(!showScience)}
+            className="px-2 sm:px-3 py-1.5 sm:py-2 bg-slate-900/90 backdrop-blur-md border border-purple-500/50 rounded-lg text-[11px] sm:text-xs font-mono text-purple-300 hover:border-purple-400 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg"
+          >
+            <BookOpen size={13} />
+            <span className="hidden sm:inline">SCIENCE & THEORY</span>
+            <span className="sm:hidden">THEORY</span>
+          </button>
+
           <button
             onClick={() => setShowPresets(!showPresets)}
             className="px-2.5 sm:px-4 py-1.5 sm:py-2 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-lg text-[11px] sm:text-xs font-mono text-cyan-400 hover:border-cyan-400 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg"
@@ -89,6 +99,66 @@ export const HUD: React.FC<HUDProps> = ({
                 <div className="text-[10px] text-slate-500 mt-1 line-clamp-2">{p.description}</div>
               </button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Science & Theory Whitepaper Modal */}
+      {showScience && (
+        <div className="fixed inset-3 sm:inset-10 md:inset-16 bg-slate-950/95 backdrop-blur-2xl border border-purple-500/40 rounded-2xl p-4 sm:p-8 pointer-events-auto shadow-2xl z-50 flex flex-col text-slate-200 font-sans overflow-hidden">
+          <div className="flex justify-between items-center pb-4 border-b border-slate-800 shrink-0">
+            <div>
+              <div className="text-[11px] font-mono text-purple-400 font-bold uppercase tracking-wider">ShW Labs • Theoretical Whitepaper</div>
+              <h2 className="text-base sm:text-xl font-bold font-mono text-white mt-0.5">Harmonices Mundi: Astrophysical & Musical Mechanics</h2>
+              <div className="text-[10px] sm:text-xs text-slate-400 font-mono mt-0.5">Author: Zaid (ShW Labs) • AI Collaboration: Gemini 3.7 Flash</div>
+            </div>
+            <button
+              onClick={() => setShowScience(false)}
+              className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 text-sm"
+            >
+              &#10005;
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto space-y-6 pt-4 pr-2 font-mono text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+              <h3 className="text-cyan-400 font-bold text-sm mb-2">1. Kepler's 1619 Planetary Harmony</h3>
+              <p>
+                In 1619, Johannes Kepler formulated his Third Law (T² ∝ a³) and observed that the ratio between a planet's minimum (aphelion) and maximum (perihelion) angular velocities yields exact consonant musical intervals:
+              </p>
+              <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-400 text-xs">
+                <li><strong className="text-slate-200">Saturn (4:5):</strong> Major Third</li>
+                <li><strong className="text-slate-200">Jupiter (5:6):</strong> Minor Third</li>
+                <li><strong className="text-slate-200">Mars (2:3):</strong> Perfect Fifth</li>
+                <li><strong className="text-slate-200">Earth (15:16):</strong> Just Semitone</li>
+              </ul>
+            </section>
+
+            <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+              <h3 className="text-pink-400 font-bold text-sm mb-2">2. Relativistic 4th-Order Runge-Kutta (RK4)</h3>
+              <p>
+                To avoid numerical breakdown during close gravitational slingshots, the engine runs an 8-substep RK4 integrator coupled with 1st Post-Newtonian (1PN) Schwarzschild precession:
+              </p>
+              <div className="bg-black/80 rounded p-3 my-2 text-cyan-300 text-[11px] sm:text-xs overflow-x-auto">
+                a_i = Σ [ G·M_j·(r_j - r_i) / (|r_j - r_i|² + ε²)^(3/2) ] · [ 1 + 3·G·(M_i + M_j) / (c²·r_ij) ]
+              </div>
+            </section>
+
+            <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+              <h3 className="text-amber-400 font-bold text-sm mb-2">3. Polyphonic Web Audio Matrix</h3>
+              <p>
+                Orbital angular velocity (ω = ||r × v|| / r²) modulates real-time FM timbre and pitch frequencies quantized to Just Intonation integer ratios (1/1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2/1). Periapsis crossings trigger velocity-scaled percussion transients.
+              </p>
+            </section>
+
+            <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+              <h3 className="text-purple-400 font-bold text-sm mb-2">4. References & Research Citations</h3>
+              <ul className="space-y-1.5 text-xs text-slate-400">
+                <li>• Luger et al. (2017). <em>A seven-planet resonant chain in TRAPPIST-1</em>. arXiv:1703.04166</li>
+                <li>• Chenciner & Montgomery (2000). <em>A remarkable periodic solution of the 3-body problem</em>. arXiv:math/0011268</li>
+                <li>• Teyssandier et al. (2021). <em>Dynamical analysis of transit-timing variations in TRAPPIST-1</em>. arXiv:2110.03340</li>
+              </ul>
+            </section>
           </div>
         </div>
       )}
